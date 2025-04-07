@@ -174,6 +174,6 @@ cython_debug/
 .pypirc
 
 #add local files to the gitignore : 
-.csv
-.json
+*.csv
+*.json
 
