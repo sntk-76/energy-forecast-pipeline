@@ -1,0 +1,15 @@
+graph TD
+  A[Raw Energy Data CSV] -->|Manual or DAG 1| B[Google Cloud Storage raw]
+  
+  B -->|Airflow DAG 2 triggers| C[PySpark Job Local]
+  C -->|Read from GCS, clean and transform| D[Google Cloud Storage cleaned]
+
+  D -->|Airflow DAG 3| E[BigQuery Table energy_cleaned]
+  
+  E -->|dbt Models| F[BigQuery Views Aggregated Data]
+  F -->|Query for EDA and Forecast| G[Jupyter Notebook Forecasting]
+  G -->|Export Forecast CSV| H[Google Cloud Storage forecast]
+  H -->|Airflow DAG 4| I[BigQuery Table energy_forecast]
+
+  F -->|Direct Connection| J[Power BI Dashboard]
+  I -->|Compare with Actuals| J

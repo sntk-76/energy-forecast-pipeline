@@ -1,0 +1,257 @@
+Updated Roadmap: Energy Consumption Data Lake & Forecasting
+✅ PROJECT GOAL
+Build a cloud-based, production-style batch data pipeline that ingests, cleans, transforms, models, forecasts, and visualizes energy consumption data (starting with Germany) using GCP services and open-source tools.
+
+✅ TECH STACK
+Terraform – Infrastructure as code (GCP setup)
+
+Docker – Local development + Airflow
+
+GCP – Core cloud platform (GCS, BigQuery, service accounts)
+
+GCS (Cloud Storage) – Raw and processed file storage
+
+BigQuery – Cloud data warehouse
+
+Airflow – Workflow orchestration
+
+PySpark (locally) – Data cleaning and transformation
+
+dbt – Data modeling and documentation
+
+Jupyter Notebook – Forecasting + exploratory analysis
+
+Power BI – Dashboards and visualization
+
+🧱 PROJECT STRUCTURE
+graphql
+Copy
+Edit
+energy-forecast-pipeline/
+├── airflow/                  # Airflow DAGs and Docker setup
+│   ├── dags/
+│   └── docker/
+├── infrastructure/           # Terraform scripts for GCP setup
+├── spark/                    # PySpark scripts (run locally, access GCS)
+├── dbt/                      # dbt project (models, seeds, docs)
+├── notebooks/                # Forecasting notebooks (Prophet, ARIMA, etc.)
+├── data/                     # Local test data or schema examples
+├── dashboard/                # Power BI .pbix file or screenshots
+├── scripts/                  # Optional Python helpers
+├── requirements.txt
+└── README.md
+🧭 STEP-BY-STEP EXECUTION PLAN
+STEP 1: Project Planning & Initialization
+1.1 Define goals & scope
+
+Focus on Germany’s hourly energy load and pricing data
+
+Produce forecasts for next 7/30 days
+
+Visualize load trends, peak hours, forecast vs. actuals
+
+1.2 Set up folder structure
+
+Follow the layout above
+
+Create a private or public GitHub repo for version control
+
+STEP 2: Infrastructure Provisioning (Terraform)
+2.1 Define GCP resources
+
+GCS buckets:
+
+gs://your-bucket/raw/
+
+gs://your-bucket/cleaned/
+
+gs://your-bucket/forecast/
+
+BigQuery datasets:
+
+energy_raw, energy_cleaned, energy_forecast
+
+Service accounts and IAM permissions
+
+2.2 Write modular Terraform configs
+
+Split by resources (buckets, BQ, IAM)
+
+Use variables for project, region, dataset names
+
+STEP 3: Airflow Environment (Docker)
+3.1 Set up Dockerized Airflow locally
+
+Webserver, scheduler, metadata DB (Postgres), logs
+
+Use Docker Compose
+
+Mount dags/ folder and connect to host GCP credentials
+
+3.2 Test Airflow locally
+
+Start UI and run a dummy DAG
+
+Confirm access to GCS via service account
+
+STEP 4: Raw Data Ingestion (Airflow)
+4.1 Download raw data
+
+Dataset: Time Series (60-min)
+
+File: time_series_60min_singleindex.csv
+
+4.2 DAG #1: Upload to GCS (raw/)
+
+Use Bash or PythonOperator to upload the CSV to
+gs://your-bucket/raw/time_series.csv
+
+Schedule: On-demand or weekly
+
+Add logging + email alerts (optional)
+
+STEP 5: Data Cleaning & Processing (Local Spark → GCS) ✅
+5.1 Configure PySpark to work with GCS
+
+Set up GCS connector + auth (gcloud auth application-default login or service account key)
+
+Install required packages: pyspark, google-cloud-storage
+
+5.2 Write local PySpark script
+
+Read from GCS:
+spark.read.csv("gs://your-bucket/raw/time_series.csv")
+
+Filter for Germany columns only:
+
+utc_timestamp, DE_load_actual_entsoe_transparency, DE_price_day_ahead
+
+Clean data:
+
+Handle nulls
+
+Standardize timestamps
+
+Rename columns to snake_case
+
+5.3 Write cleaned data back to GCS
+
+Output file to:
+gs://your-bucket/cleaned/de_energy_data.csv
+
+5.4 Airflow DAG #2: Trigger Spark Job
+
+Use BashOperator to run your local Spark script from DAG
+
+Schedule: On-demand or after raw upload
+
+STEP 6: Load Cleaned Data to BigQuery
+6.1 DAG #3: GCS → BigQuery
+
+Load cleaned CSV from gs://your-bucket/cleaned/ into
+energy_cleaned.de_hourly_data
+
+Define schema explicitly (timestamp, load: float, price: float)
+
+Set WRITE_TRUNCATE mode for reproducibility
+
+STEP 7: Data Modeling with dbt
+7.1 Set up dbt project connected to BigQuery
+
+Profile config with your GCP service account
+
+Create models/:
+
+daily_avg_load.sql
+
+monthly_peaks.sql
+
+price_load_correlation.sql
+
+7.2 Add dbt tests
+
+Non-null timestamps
+
+Reasonable range for price/load
+
+7.3 Generate dbt documentation
+
+Use dbt docs generate
+
+Serve interactive docs locally
+
+STEP 8: Forecasting with Jupyter Notebook
+8.1 Load data from BigQuery
+
+Use google-cloud-bigquery or pandas-gbq
+
+Aggregate as needed (daily, weekly)
+
+8.2 Build forecasting model
+
+Use Facebook Prophet, ARIMA, or Exponential Smoothing
+
+Visualize:
+
+Actual vs. predicted
+
+Confidence intervals
+
+8.3 Export forecast results
+
+Save predictions to CSV
+
+Upload to gs://your-bucket/forecast/
+
+Load into energy_forecast table via Airflow
+
+STEP 9: Dashboarding in Power BI
+9.1 Connect Power BI to BigQuery
+
+Use native connector or ODBC
+
+9.2 Create dashboard
+
+Tabs:
+
+Historical usage trends
+
+Peak hours
+
+Load vs. price
+
+Forecast (line chart, shading)
+
+Add filters: Date range, aggregation (daily/monthly)
+
+STEP 10: Finalization & Documentation
+10.1 Polish your repo
+
+Clean folder structure
+
+Push to GitHub
+
+Add:
+
+Sample outputs
+
+Architecture diagram
+
+Screenshots
+
+10.2 Write README.md
+
+Include:
+
+Project overview
+
+Tools used
+
+Architecture diagram
+
+DAG explanations
+
+Dashboard preview
+
+Key takeaways
+
