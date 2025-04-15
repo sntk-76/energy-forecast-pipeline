@@ -21,7 +21,7 @@ with DAG(
     upload_file = LocalFilesystemToGCSOperator(
         task_id = 'upload_raw_data',
         src='/opt/airflow/data/raw_data.csv',
-        dst='raw/raw_data',
+        dst='raw/raw_data.csv',
         bucket='energy-forecast-pipeline_bucket'
     )
 

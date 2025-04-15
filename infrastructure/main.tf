@@ -30,3 +30,19 @@ resource "google_bigquery_dataset" "forecast_gcp_bigquery" {
   
 }
 
+
+resource "google_bigquery_dataset" "staging_gcp_bigquery" {
+
+    dataset_id = var.bigquery_name_3
+    project = var.project_id
+    location = var.region
+  
+}
+
+resource "google_bigquery_dataset" "mart_gcp_bigquery" {
+
+    dataset_id = var.bigquery_name_4
+    project = var.project_id
+    location = var.region
+  
+}

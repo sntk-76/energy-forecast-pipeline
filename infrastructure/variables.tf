@@ -5,7 +5,7 @@ variable "project_id" {
 
 variable "service_account" {
     description = "The service account json file directory for the gcp connection"
-    default = "/home/sinatavakoli284/energy-forecast-pipeline/Authentication/energy-forecast-pipeline-4005547e63fc.json"
+    default = "/home/sinatavakoli284/energy-forecast-pipeline/authentication/gcp-sa-key.json"
 }
 
 variable "region" {
@@ -26,5 +26,15 @@ variable "bigquery_name_1" {
 variable "bigquery_name_2" {
     description = "The name of the data set for the forcast process "
     default = "forcast_data"
+}
+
+variable "bigquery_name_3" {
+    description = "The name of the data set for the staging process "
+    default = "staging"
+}
+
+variable "bigquery_name_4" {
+    description = "The name of the data set for the marts process "
+    default = "mart"
 }
 
