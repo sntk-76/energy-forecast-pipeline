@@ -1,9 +1,27 @@
 # Energy Consumption Data Lake & Forecasting
 
 ## Project Overview
-This project is a full-scale, cloud-native data pipeline designed to ingest, clean, model, forecast, and visualize energy consumption data for Germany. Built entirely with Google Cloud Platform services and open-source tools, it follows modern data engineering best practices, focusing on batch processing and forecasting of daily energy loads.
+This project presents a comprehensive, production-grade data pipeline built for end-to-end processing and forecasting of energy consumption data, with an initial focus on Germany's energy market. It is designed to demonstrate modern data engineering capabilities by integrating several components that work in harmony across the entire data lifecycle—from raw data ingestion to advanced forecasting and interactive visualization.
 
-The solution leverages infrastructure-as-code (Terraform), orchestration (Airflow), distributed processing (Spark), cloud warehousing (BigQuery), modeling (dbt), forecasting (Prophet), and dashboarding (Power BI).
+The pipeline is cloud-native, meaning it is designed to operate seamlessly on cloud infrastructure using managed services. It is built primarily on Google Cloud Platform (GCP), utilizing a suite of open-source technologies and GCP-native services. The architecture aligns with best practices in modern data engineering, focusing on reliability, modularity, scalability, and automation. The project is centered around batch processing, where energy data is processed at regular intervals to prepare for forecasting tasks.
+
+Key capabilities and tools integrated into this pipeline include:
+
+Infrastructure-as-Code (IaC) with Terraform, enabling repeatable and scalable deployment of cloud infrastructure like GCS buckets, BigQuery datasets, and IAM roles.
+
+Workflow orchestration using Apache Airflow, managed locally in a Docker environment. Airflow schedules and triggers pipeline jobs such as data ingestion, transformation, and model execution.
+
+Distributed data transformation with Apache Spark (PySpark) for efficiently cleaning and preparing large volumes of energy data locally before uploading to GCP.
+
+Cloud data warehousing using BigQuery, serving as a central, structured repository for raw, cleaned, and modeled datasets.
+
+Data modeling and documentation using dbt, which provides modular SQL-based transformations, testing, and documentation directly on BigQuery.
+
+Time-series forecasting using Facebook Prophet in Jupyter Notebooks, incorporating external regressors like solar and wind energy data to enhance prediction accuracy.
+
+Interactive dashboards developed in Power BI, directly connected to BigQuery, allowing users to explore trends, peaks, and forecasting results through visual reports.
+
+Together, these components form a cohesive and automated pipeline capable of handling real-world energy data analytics, offering robust insights for stakeholders in the energy sector.
 
 ![Project Cover](https://github.com/sntk-76/energy-forecast-pipeline/blob/main/project_plan/cover_photo.png)
 
@@ -180,6 +198,4 @@ MIT License
 ---
 
 ## Author
-**Sina Tavakoli**  
-MSc Student in Environmental Engineering and Data Science  
-University of Padova
+**Sina Tavakoli**
