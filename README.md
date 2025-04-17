@@ -193,9 +193,9 @@ flowchart TD
 ---
 
 ## License
-MIT License
+Distributed under the MIT License.
 
 ---
 
 ## Author
-**Sina Tavakoli**
+Developed by **Sina Tavakoli**
