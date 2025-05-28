@@ -23,7 +23,7 @@ Interactive dashboards developed in Power BI, directly connected to BigQuery, al
 
 Together, these components form a cohesive and automated pipeline capable of handling real-world energy data analytics, offering robust insights for stakeholders in the energy sector.
 
-![Project Cover](https://github.com/sntk-76/energy-forecast-pipeline/blob/main/project_plan/cover_photo.png)
+![Project Cover](https://github.com/sntk-76/energy-forecast-pipeline/blob/main/project_plan/Energy Forecast.png)
 
 ---
 
